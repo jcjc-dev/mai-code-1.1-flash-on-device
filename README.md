@@ -1,6 +1,6 @@
 # MAI Code 1.1 Flash On-Device Downloader and Benchmark
 
-`llama-server` performance results for **AMD Strix Halo** and **one NVIDIA DGX
+`llama-server` performance results for **AMD Strix Halo** and **NVIDIA DGX
 Spark (GB10)**, measured on October 19-20, 2026, plus a standalone model
 downloader.
 
