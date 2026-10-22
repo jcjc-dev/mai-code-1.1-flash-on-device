@@ -1,5 +1,9 @@
 # Download without the Python script
 
+These instructions fetch **MAI-Code-1.1-Flash-On-Device version 2**, including
+the **Q2-XS GGUF** model, its drafter and configuration. They do not fetch a
+full-precision MAI Code 1.1 Flash checkpoint.
+
 The files are served by Azure Blob Storage, not bundled in this repository.
 You can resolve a temporary download location and then use curl, a browser
 or a download manager. No Azure account, Azure CLI or Python is required.

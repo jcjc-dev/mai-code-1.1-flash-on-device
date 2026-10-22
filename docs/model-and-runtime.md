@@ -1,5 +1,32 @@
 # Model, drafter and llama.cpp settings
 
+## Model variant
+
+This repository downloads and benchmarks the **quantized on-device variant**,
+not the full-precision MAI Code 1.1 Flash checkpoint.
+
+| Property | Value |
+|---|---|
+| Azure ML model name | `MAI-Code-1.1-Flash-On-Device` |
+| Publisher | Microsoft |
+| Azure ML version | 2 |
+| Intended deployment | Local / on-device inference |
+| File format | GGUF |
+| Main-file quantization label | `Q2-XS` |
+| Publisher-reported total / active parameters | 137.9B / 6.8B |
+
+The catalog resolver identifies the model as `MAI-Code-1.1-Flash-On-Device`
+with `modelFlavor: GGUF` and `githubCopilotLocal: true`. `Q2-XS` is the label
+in the package's main filename; the resolver does not expose a separate
+quantization field.
+
+The [publisher's model card](https://github.com/Azure/azureml-assets/wiki/models-MAI-Code-1.1-Flash-On-Device)
+describes mixed-precision weight quantization averaging approximately
+**3.3 bits per weight**. Do not interpret the filename as a claim that every
+weight uses exactly two bits. "On-device" identifies this quantized variant,
+not an incomplete download or a file containing only the active parameters.
+The README's measurements apply to this package, not other MAI Code variants.
+
 ## Model files
 
 The package is the public Azure ML asset:

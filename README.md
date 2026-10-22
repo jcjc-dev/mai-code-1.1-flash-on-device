@@ -4,6 +4,11 @@
 Spark (GB10)**, measured on October 19-20, 2026, plus a standalone model
 downloader.
 
+**Model variant:** All downloads and benchmarks here target Microsoft's
+**MAI-Code-1.1-Flash-On-Device**, Azure ML version **2**, supplied as
+`MAI-Code-1.1-Flash-Q2-XS.gguf`. This is the **quantized on-device GGUF
+variant**, not the full-precision MAI Code 1.1 Flash checkpoint.
+
 **Licensing:** [MIT](LICENSE) covers this repository's original code and
 documentation, not third-party model assets. See
 [license and model terms](#license-and-model-terms).
@@ -39,8 +44,9 @@ launcher or machine-setup framework.
 
 ## Model and llama.cpp configuration
 
-The main model is `MAI-Code-1.1-Flash-Q2-XS.gguf`; its optional DFlash drafter is
-`dflash-v3-lc1.gguf`.
+The on-device main model is `MAI-Code-1.1-Flash-Q2-XS.gguf`; its optional
+DFlash drafter is `dflash-v3-lc1.gguf`. The publisher describes the on-device
+weights as mixed-precision quantized; see the model details below.
 
 - [Model and drafter filenames, SHA-256 values and basic llama.cpp commands](docs/model-and-runtime.md)
 - [Publisher's llama configuration](configs/llama-config.json)

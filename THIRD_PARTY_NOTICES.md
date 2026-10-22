@@ -4,10 +4,11 @@ The [repository MIT license](LICENSE) covers this project's original code
 and documentation. It does not relicense third-party model assets or
 publisher-supplied configuration.
 
-## Microsoft MAI Code package
+## Microsoft MAI Code 1.1 Flash On-Device package
 
 Publisher: Microsoft. Distribution source: Azure Machine Learning (Azure ML)
-public model catalog.
+public model catalog. The asset below is the quantized on-device GGUF
+variant, with `Q2-XS` in the main filename, not the full-precision checkpoint.
 
 ```text
 azureml://registries/azureml/models/MAI-Code-1.1-Flash-On-Device/versions/2
@@ -15,7 +16,7 @@ azureml://registries/azureml/models/MAI-Code-1.1-Flash-On-Device/versions/2
 
 | Asset | Relationship to this repository |
 |---|---|
-| `MAI-Code-1.1-Flash-Q2-XS.gguf` | Model weights fetched directly from the publisher's Azure ML download location; not included in this repository. |
+| `MAI-Code-1.1-Flash-Q2-XS.gguf` | Quantized on-device model weights fetched directly from the publisher's Azure ML download location; not included in this repository. |
 | `dflash-v3-lc1.gguf` | Drafter weights fetched from the same package; not included in this repository. |
 | [`configs/llama-config.json`](configs/llama-config.json) | Publisher-supplied configuration included as a reference copy, not original project code. |
 
