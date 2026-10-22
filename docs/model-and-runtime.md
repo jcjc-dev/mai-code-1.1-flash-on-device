@@ -104,8 +104,8 @@ llama-server --model MAI-Code-1.1-Flash-Q2-XS.gguf --ctx-size 131072 --parallel 
 
 This is the no-drafter configuration corresponding to the mode shown in the
 README. It uses a 131072 context limit rather than the larger publisher
-default. The DGX 2K measurements used `--ubatch-size 512`; the other displayed
-measurements used 2048.
+default. DGX 2K PP and all displayed DGX TG measurements used
+`--ubatch-size 512`; DGX 32K/64K PP and the Strix measurements used 2048.
 
 For optional DFlash decoding, add:
 

@@ -9,34 +9,41 @@ downloader.
 `MAI-Code-1.1-Flash-Q2-XS.gguf`. This is the **quantized on-device GGUF
 variant**, not the full-precision MAI Code 1.1 Flash checkpoint.
 
-**Licensing:** [MIT](LICENSE) covers this repository's original code and
-documentation, not third-party model assets. See
-[license and model terms](#license-and-model-terms).
-
 ## Performance
 
 All rates are **tokens per second**, calculated from server-side timings
 rather than startup or network time.
 
-| Prompt tokens | Strix Halo PP | DGX Spark PP | Strix Halo TG | DGX Spark TG |
+| Size | Strix Halo PP | DGX Spark PP | Strix Halo TG | DGX Spark TG |
 |---|---:|---:|---:|---:|
 | 2,048 (2K) | 1160.581 | 1980.403 | 124.339 | 60.182 |
-| 32,768 (32K) | 894.554 | 1982.820 | - | - |
-| 65,536 (64K) | 711.913 | 1820.364 | - | - |
+| 32,768 (32K) | 894.554 | 1982.820 | 45.427 | 49.201 |
+| 65,536 (64K) | 711.913 | 1820.364 | 40.859 | 41.956 |
 
-Each workload uses **two warmups followed by five measured requests**;
-warmups are excluded and the median is shown. The DGX 2K values are the
-median of three run medians, totaling 15 measured requests per metric.
-Strix 2K and both machines' 32K/64K values each use one run of five measured
-requests per metric. `-` means TG was not measured in these runs, not zero.
+Medians are shown; warmups are excluded.
+
+- **PP:** two warmups followed by five measured requests per run. DGX 2K
+  uses the median of three run medians (15 measured requests); the other
+  PP entries each use five measured requests from a run.
+- **TG at 2K/32K:** dedicated tests with two warmups followed by five
+  measured requests per run.
+  Strix uses five measurements per size; DGX uses the median of three run
+  medians, totaling 15 measured requests per size.
+- **TG at 64K:** context-ramp measurements, with **1 measurement for Strix**
+  and the median of **3 DGX measurements from 3 runs**. There were no
+  dedicated warmups for these measurements. The prompt is 65,280 tokens
+  plus 256 output tokens, making 65,536 total context tokens.
+
+PP sizes and the 2K/32K TG sizes refer to prompt tokens; the 64K TG size
+refers to total context as described above.
 
 DFlash2 is **off**, concurrency is **one**, PP requests generate one output
 token, and TG requests generate 256 output tokens.
 
-| Hardware | Backend | OS / architecture | 2K batch / ubatch | 32K/64K batch / ubatch |
+| Hardware | Backend | OS / architecture | PP batch / ubatch | TG batch / ubatch |
 |---|---|---|---|---|
 | AMD Strix Halo | Vulkan / RADV | Fedora 43 / x86_64 | 2048 / 2048 | 2048 / 2048 |
-| NVIDIA DGX Spark (GB10) | CUDA | Ubuntu 24.04 / aarch64 | 2048 / 512 | 2048 / 2048 |
+| NVIDIA DGX Spark (GB10) | CUDA | Ubuntu 24.04 / aarch64 | 2048 / 512 at 2K; 2048 / 2048 at 32K/64K | 2048 / 512 |
 
 These are separate runs on the listed configurations. Exact llama.cpp
 revisions were not recorded. This repository does not include a benchmark
@@ -169,3 +176,7 @@ do not download model files or require a GPU, SSH access or internet access:
 ```powershell
 python -m unittest discover -s tests -v
 ```
+
+**Licensing:** [MIT](LICENSE) covers this repository's original code and
+documentation, not third-party model assets. See
+[license and model terms](#license-and-model-terms).
