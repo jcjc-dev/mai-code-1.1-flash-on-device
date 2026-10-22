@@ -4,6 +4,10 @@
 Spark (GB10)**, measured on October 19-20, 2026, plus a standalone model
 downloader.
 
+**Licensing:** [MIT](LICENSE) covers this repository's original code and
+documentation, not third-party model assets. See
+[license and model terms](#license-and-model-terms).
+
 ## Performance
 
 All rates are **tokens per second**, calculated from server-side timings
@@ -130,6 +134,26 @@ for distribution and terms, and the
 [catalog API guide](https://api.catalog.azureml.ms/asset-gallery/v1.0)
 for the discovery contract. Those upstream instructions are not a
 validated Strix/DGX setup recipe.
+
+## License and model terms
+
+This repository's original downloader, tests and benchmark documentation
+are licensed under the [MIT License](LICENSE).
+
+The model weights, drafter weights and publisher-supplied configuration are
+third-party assets made available through Azure Machine Learning (Azure ML).
+**They are not licensed or relicensed by this repository's MIT license.**
+Their use, modification and redistribution remain subject to the model
+publisher's applicable licenses, required notices, restrictions and
+download/use terms. You are responsible for reviewing and complying with
+those terms; this repository's MIT license does not override them or grant
+additional rights in those assets.
+
+Model and drafter weights are not included in this repository.
+`configs/llama-config.json` is a reference copy of the publisher's
+configuration and retains its upstream licensing. See
+[third-party assets and notices](THIRD_PARTY_NOTICES.md) for the source and
+links to the publisher's licensing information.
 
 ## Downloader tests
 

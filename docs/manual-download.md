@@ -4,6 +4,12 @@ The files are served by Azure Blob Storage, not bundled in this repository.
 You can resolve a temporary download location and then use curl, a browser
 or a download manager. No Azure account, Azure CLI or Python is required.
 
+The model, drafter and publisher configuration remain subject to their
+upstream licenses, notices and applicable terms. This project's MIT
+license does not relicense those assets, and downloading them manually
+does not change those obligations. See
+[third-party assets and license scope](../THIRD_PARTY_NOTICES.md).
+
 The flow is:
 
 1. Resolve the pinned Azure ML asset ID.

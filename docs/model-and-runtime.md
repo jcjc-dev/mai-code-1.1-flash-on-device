@@ -8,6 +8,10 @@ The package is the public Azure ML asset:
 azureml://registries/azureml/models/MAI-Code-1.1-Flash-On-Device/versions/2
 ```
 
+The files are publisher-provided assets distributed through Azure ML, not
+relicensed under this project's MIT license. See
+[third-party assets and license scope](../THIRD_PARTY_NOTICES.md).
+
 | Role | Filename | Bytes |
 |---|---|---:|
 | Main model, Q2-XS GGUF | `MAI-Code-1.1-Flash-Q2-XS.gguf` | 56,307,620,832 |
