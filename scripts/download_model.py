@@ -37,13 +37,14 @@ class Artifact:
     sha256: str | None
 
 
-# GGUF reference digests were observed in prior runs, not supplied by the catalog.
+# Reference digests are local observations, not checksums supplied by the catalog.
 ARTIFACTS = (
     Artifact("MAI-Code-1.1-Flash-Q2-XS.gguf", 56307620832,
              "048788de4848e92c7a543feb1c5e0c9144515ac8a3fec1508d5857d25b0e556e"),
     Artifact("dflash-v3-lc1.gguf", 381214016,
              "7052df547898b46fab3ff23f8c1085547003116899506099467f948debb75b15"),
-    Artifact("llama-config.json", 504, None),
+    Artifact("llama-config.json", 504,
+             "afcfce372a09bfa79f8b655f048eadd12b2551a4d656d8bd8e6b662e2598fa96"),
 )
 
 

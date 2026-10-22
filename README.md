@@ -1,4 +1,4 @@
-# MAI Code 1.1 Flash: local llama.cpp measurements
+# MAI Code 1.1 Flash Downloader and Benchmark
 
 `llama-server` performance results for **AMD Strix Halo** and **one NVIDIA DGX
 Spark (GB10)**, measured on October 19-20, 2026, plus a standalone model
@@ -6,9 +6,8 @@ downloader.
 
 ## Performance
 
-PP is prompt processing; TG is token generation. All rates are **tokens per
-second**, calculated from server-side timings rather than startup or network
-time.
+All rates are **tokens per second**, calculated from server-side timings
+rather than startup or network time.
 
 | Prompt tokens | Strix Halo PP | DGX Spark PP | Strix Halo TG | DGX Spark TG |
 |---|---:|---:|---:|---:|
@@ -33,6 +32,15 @@ token, and TG requests generate 256 output tokens.
 These are separate runs on the listed configurations. Exact llama.cpp
 revisions were not recorded. This repository does not include a benchmark
 launcher or machine-setup framework.
+
+## Model and llama.cpp configuration
+
+The main model is `MAI-Code-1.1-Flash-Q2-XS.gguf`; its optional DFlash drafter is
+`dflash-v3-lc1.gguf`.
+
+- [Model and drafter filenames, SHA-256 values and basic llama.cpp commands](docs/model-and-runtime.md)
+- [Publisher's llama configuration](configs/llama-config.json)
+- [Manual downloads without the Python script](docs/manual-download.md)
 
 ## Model downloader
 
@@ -87,21 +95,19 @@ The setting can change between attempts without losing completed ranges.
 No production model download was performed to tune throughput.
 
 The script requires sufficient remaining disk space and resumes its own
-partial files using strict ETag, `If-Match`, byte-range and length checks. Existing
-completed files are checked rather than overwritten; the tiny config is
-compared with fresh remote bytes because it has no reference hash, and its
-partial downloads are re-fetched rather than resumed. Interrupted transfers
-and expired download URLs receive at most three attempts per file, refreshing
-catalog metadata before retries. Temporary signed URLs are kept in memory:
-they are not printed or written to receipts, partial-file metadata or logs.
+partial files using strict ETag, `If-Match`, byte-range and length checks.
+Existing completed files are checked rather than overwritten. Interrupted
+transfers and expired download URLs receive at most three attempts per file,
+refreshing catalog metadata before retries. Temporary signed URLs are kept
+in memory: they are not printed or written to receipts, partial-file metadata
+or logs.
 
 **Integrity boundary:** the catalog currently supplies no per-file checksum.
-Both GGUF SHA-256 values are reference checksums observed in prior runs,
-not represented as publisher-signed checksums. `llama-config.json`
-has no reference digest; its checks are HTTPS transport, remote ETag/length
-and JSON-object syntax. `download-manifest.json` records the actual SHA-256
-and verification level for every completed file. It does not turn an observed
-checksum into independent publisher authentication.
+The GGUF reference checksums were observed in prior runs; the small config's
+reference checksum was obtained from the publisher endpoint on October 22,
+2026. These are not represented as publisher-signed checksums.
+`download-manifest.json` records the actual SHA-256 and verification level
+for every completed file.
 
 Partial files with a changed identity/ETag or a bad checksum are retained and
 rejected, never silently mixed or installed. To restart such a file, remove
@@ -110,7 +116,8 @@ downloader is running. A directory lock prevents two script instances from
 writing together; after a force-killed process, remove `.download.lock` only
 once you have confirmed the previous process is gone.
 
-Live catalog discovery, Blob listing and HEAD checks have been exercised.
+Live catalog discovery, Blob listing and HEAD checks have been exercised;
+the 504-byte publisher configuration has also been checked.
 Transfer, actual bounded parallel requests, resume, retry and failure behavior
 are tested against tiny local HTTP fixtures.
 **The full production model has not been downloaded as validation

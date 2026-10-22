@@ -1,0 +1,28 @@
+{
+  "model": "MAI-Code-1.1-Flash-Q2-XS.gguf",
+  "draftModel": "dflash-v3-lc1.gguf",
+  "ctxSize": 262144,
+  "parallel": 1,
+  "nGpuLayers": 999,
+  "args": [
+    "--spec-type",
+    "draft-dflash",
+    "--spec-draft-n-max",
+    "3",
+    "--spec-draft-p-min",
+    "0.2",
+    "--spec-draft-ngl",
+    "all",
+    "--flash-attn",
+    "on",
+    "--batch-size",
+    "2048",
+    "--ubatch-size",
+    "2048",
+    "--fit",
+    "off",
+    "--ctx-checkpoints",
+    "0",
+    "--no-host"
+  ]
+}

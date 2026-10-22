@@ -355,6 +355,27 @@ class DownloaderTests(unittest.TestCase):
         self.assertIn("differs from the remote config", stderr)
         self.assertEqual(config.read_bytes(), modified)
 
+    def test_known_config_checksum_rejects_modified_existing_json_without_a_get(self):
+        config_name = "llama-config.json"
+        pinned = tuple(
+            downloader.Artifact(artifact.name, artifact.size,
+                                hashlib.sha256(self.bodies[config_name]).hexdigest())
+            if artifact.name == config_name else artifact
+            for artifact in downloader.ARTIFACTS
+        )
+        self.output.mkdir()
+        for name, body in self.bodies.items():
+            (self.output / name).write_bytes(body)
+        config = self.output / config_name
+        modified = config.read_bytes().replace(b'"model"', b'"other"')
+        config.write_bytes(modified)
+        with patch.object(downloader, "ARTIFACTS", pinned):
+            code, _, stderr = self.run_cli("--download")
+        self.assertEqual(code, 1)
+        self.assertIn("SHA-256 mismatch", stderr)
+        self.assertEqual(config.read_bytes(), modified)
+        self.assertEqual(self.artifact_gets(), [])
+
     def test_complete_partial_is_verified_and_installed_without_another_get(self):
         blob = next(iter(downloader.resolve().values()))
         self.seed_partial(blob, self.bodies[blob.artifact.name])
