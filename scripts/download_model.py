@@ -37,7 +37,7 @@ class Artifact:
     sha256: str | None
 
 
-# GGUF digests were observed in the retained run manifests, not supplied by the catalog.
+# GGUF reference digests were observed in prior runs, not supplied by the catalog.
 ARTIFACTS = (
     Artifact("MAI-Code-1.1-Flash-Q2-XS.gguf", 56307620832,
              "048788de4848e92c7a543feb1c5e0c9144515ac8a3fec1508d5857d25b0e556e"),
@@ -292,7 +292,7 @@ def validate_file(path, artifact, digest):
             raise DownloadError("llama-config.json: invalid JSON; file retained, not installed.") from None
         require(isinstance(config, dict), "llama-config.json must contain a JSON object.")
     return {"bytes": artifact.size, "sha256": digest,
-            "verification": "archived-sha256" if artifact.sha256 else "https-etag-size-json"}
+            "verification": "reference-sha256" if artifact.sha256 else "https-etag-size-json"}
 
 
 @contextmanager
@@ -577,7 +577,7 @@ def main(argv=None):
                 "totalBytes": sum(artifact.size for artifact in ARTIFACTS),
                 "parallelism": args.parallelism,
                 "files": [{"name": artifact.name, "bytes": artifact.size,
-                           "archivedSha256": artifact.sha256} for artifact in ARTIFACTS],
+                           "referenceSha256": artifact.sha256} for artifact in ARTIFACTS],
                 "note": "No artifact bodies fetched. Use --download to transfer files.",
             }, indent=2))
         return 0

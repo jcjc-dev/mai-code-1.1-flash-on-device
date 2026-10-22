@@ -1,8 +1,0 @@
-{
-  "schema_version": "raw-hashes-v1",
-  "files": {
-    "manifest.json": "908b0ab70af8bdda54a298b4697f1fa5b44b27700bc93ce7d12fe7a6ca0b6a3f",
-    "samples.jsonl": "7dd71f85d3ee943df65f57c4652c5ef884b83faa047c9d7835fbcdbc27cb4c01",
-    "host-metrics.jsonl": "285be94aea10db47f800e3f75b0ee2496fd93a52d10dbba3ce5d4995cb53f162"
-  }
-}
