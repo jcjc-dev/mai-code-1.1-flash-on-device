@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Sealed archives retain their original bytes, including CRLF line endings.
+results/runs/** -text whitespace=trailing-space,space-before-tab,cr-at-eol

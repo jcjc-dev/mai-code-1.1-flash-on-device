@@ -1,0 +1,9 @@
+/models/
+/local-notes/
+*.gguf
+*.part
+*.download
+*.log
+__pycache__/
+.pytest_cache/
+.venv/
