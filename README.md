@@ -1,8 +1,7 @@
 # MAI Code 1.1 Flash On-Device Downloader and Benchmark
 
 `llama-server` performance results for **AMD Strix Halo** and **NVIDIA DGX
-Spark (GB10)**, measured on October 19-20, 2026, plus a standalone model
-downloader.
+Spark (GB10)**, plus a standalone model downloader.
 
 **Model variant:** All downloads and benchmarks here target Microsoft's
 **MAI-Code-1.1-Flash-On-Device**, Azure ML version **2**, supplied as
@@ -14,28 +13,15 @@ variant**, not the full-precision MAI Code 1.1 Flash checkpoint.
 All rates are **tokens per second**, calculated from server-side timings
 rather than startup or network time.
 
-| Size | Strix Halo PP | DGX Spark PP | Strix Halo TG | DGX Spark TG |
+| Input size (approx.) | Strix Halo PP | DGX Spark PP | Strix Halo TG | DGX Spark TG |
 |---|---:|---:|---:|---:|
-| 2,048 (2K) | 1160.581 | 1980.403 | 124.339 | 60.182 |
-| 32,768 (32K) | 894.554 | 1982.820 | 45.427 | 49.201 |
-| 65,536 (64K) | 711.913 | 1820.364 | 40.859 | 41.956 |
+| 2K | 1160.581 | 1980.403 | 124.339 | 60.182 |
+| 32K | 894.554 | 1982.820 | 45.427 | 49.201 |
+| 64K | 711.913 | 1820.364 | 40.859 | 41.956 |
 
-Medians are shown; warmups are excluded.
-
-- **PP:** two warmups followed by five measured requests per run. DGX 2K
-  uses the median of three run medians (15 measured requests); the other
-  PP entries each use five measured requests from a run.
-- **TG at 2K/32K:** dedicated tests with two warmups followed by five
-  measured requests per run.
-  Strix uses five measurements per size; DGX uses the median of three run
-  medians, totaling 15 measured requests per size.
-- **TG at 64K:** context-ramp measurements, with **1 measurement for Strix**
-  and the median of **3 DGX measurements from 3 runs**. There were no
-  dedicated warmups for these measurements. The prompt is 65,280 tokens
-  plus 256 output tokens, making 65,536 total context tokens.
-
-PP sizes and the 2K/32K TG sizes refer to prompt tokens; the 64K TG size
-refers to total context as described above.
+Measurements use an already loaded model. Medians summarize measured
+requests/runs, excluding warmups where used; 64K TG has fewer samples than
+the other entries.
 
 DFlash2 is **off**, concurrency is **one**, PP requests generate one output
 token, and TG requests generate 256 output tokens.
@@ -85,12 +71,12 @@ To actually download, explicitly opt in:
 python scripts\download_model.py --download --parallelism 4 --output .\models\MAI-Code-1.1-Flash-On-Device
 ```
 
-| File | Bytes |
-|---|---:|
-| `MAI-Code-1.1-Flash-Q2-XS.gguf` | 56,307,620,832 |
-| `dflash-v3-lc1.gguf` | 381,214,016 |
-| `llama-config.json` | 504 |
-| **Total** | **56,688,835,352** |
+| File | Bytes | Reference SHA-256 |
+|---|---:|---|
+| `MAI-Code-1.1-Flash-Q2-XS.gguf` | 56,307,620,832 | `048788de4848e92c7a543feb1c5e0c9144515ac8a3fec1508d5857d25b0e556e` |
+| `dflash-v3-lc1.gguf` | 381,214,016 | `7052df547898b46fab3ff23f8c1085547003116899506099467f948debb75b15` |
+| `llama-config.json` | 504 | `afcfce372a09bfa79f8b655f048eadd12b2551a4d656d8bd8e6b662e2598fa96` |
+| **Total** | **56,688,835,352** | |
 
 **Zero third-party dependencies:** everything, including parallel transfers,
 uses Python's standard library. There is nothing to install with `pip`.
